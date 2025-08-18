@@ -3,9 +3,7 @@
   "version": "1.1.2",
   "description": "CLI tool for self-hosted OTA deployments with Airship",
   "main": "index.js",
-  "bin": {
-    "airship": "index.js"
-  },
+  "bin": { "airship": "index.js" },
   "scripts": {
     "start": "ts-node -r tsconfig-paths/register src/index.ts",
     "build": "rimraf ./dist && tsc && tsc-alias",
@@ -29,9 +27,7 @@
   "author": "Clinikally Development Team",
   "license": "MIT",
   "homepage": "https://clinikally.com/",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
+  "publishConfig": { "registry": "https://npm.pkg.github.com" },
   "packageManager": "pnpm@10.11.0",
   "dependencies": {
     "archiver": "^7.0.1",
@@ -50,54 +46,18 @@
     "rimraf": "^6.0.1",
     "semver": "^7.7.2"
   },
-  "devDependencies": {
-    "@semantic-release/changelog": "^6.0.0",
-    "@semantic-release/git": "^10.0.0",
-    "@types/archiver": "^6.0.3",
-    "@types/chalk": "^2.2.4",
-    "@types/figlet": "^1.5.8",
-    "@types/gradient-string": "^1.1.6",
-    "@types/inquirer": "^9.0.8",
-    "@types/jsonwebtoken": "^9.0.9",
-    "@types/lodash": "^4.17.16",
-    "@types/node": "^22.15.17",
-    "@types/opener": "^1.4.3",
-    "@types/semver": "^7.7.0",
-    "cross-env": "^7.0.3",
-    "prettier": "^3.5.3",
-    "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
-    "tsc-alias": "^1.8.8",
-    "tsconfig-paths": "^4.2.0",
-    "semantic-release": "19.0.3",
-    "typescript": "^5.8.3"
-  },
   "release": {
-    "branches": [
-      "main",
-      {
-        "name": "alpha",
-        "prerelease": true
-      }
-    ],
+    "branches": ["main", { "name": "alpha", "prerelease": true }],
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
       "@semantic-release/changelog",
-      [
-        "@semantic-release/npm",
-        {
-          "pkgRoot": "stallion-package"
-        }
-      ],
+      ["@semantic-release/npm", { "pkgRoot": "stallion-package" }],
       "@semantic-release/github",
       [
         "@semantic-release/git",
         {
-          "assets": [
-            "CHANGELOG.md",
-            "package.json"
-          ],
+          "assets": ["CHANGELOG.md", "package.json"],
           "message": "chore(release): ${nextRelease.version}"
         }
       ]
