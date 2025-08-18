@@ -1,5 +1,7 @@
 export const ENDPOINTS = {
-  CLI_LOGIN: "https://your-ota-console.com/dashboard/cli/user",
+  CLI_LOGIN: process.env.AIRSHIP_CONSOLE_URL 
+    ? `${process.env.AIRSHIP_CONSOLE_URL}/dashboard/cli/user`
+    : "http://localhost:8000/dashboard/cli/user",
   USER: {
     VERIFY: "/auth/user-profile",
   },
