@@ -18,8 +18,8 @@ import fs from "fs";
 const program = new Command();
 
 program
-  .name("stallion")
-  .description("CLI tool for managing your projects")
+  .name("airship")
+  .description("CLI tool for self-hosted OTA deployments with Airship")
   .version(getVersion());
 
 const registry = new CommandRegistry();
