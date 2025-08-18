@@ -1,6 +1,6 @@
 export const CONFIG = {
   API: {
-    BASE_URL: "https://api.stalliontech.io/api/v1",
+    BASE_URL: "https://your-ota-server.com/api/v1",
   },
-  BUNDLE_EXTENSION: ".stallionsigned",
+  BUNDLE_EXTENSION: ".airshipsigned",
 } as const;
