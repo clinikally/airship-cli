@@ -1,7 +1,6 @@
 export const ENDPOINTS = {
-  CLI_LOGIN: process.env.AIRSHIP_CONSOLE_URL 
-    ? `${process.env.AIRSHIP_CONSOLE_URL}/dashboard/cli/user`
-    : "http://localhost:8000/dashboard/cli/user",
+  CLI_LOGIN_INITIATE: "/dashboard/cli/user",
+  CLI_GET_TOKEN: "/auth/cli/token", 
   USER: {
     VERIFY: "/auth/user-profile",
   },

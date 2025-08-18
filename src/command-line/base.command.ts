@@ -32,11 +32,27 @@ export abstract class BaseCommand {
 
   async login(): Promise<boolean> {
     try {
-      logger.info(
-        `Opening your browser...${os.EOL}• Visit ${ENDPOINTS.CLI_LOGIN} and enter the code:`
-      );
+      // Step 1: Get user code from API
+      const apiClient = new ApiClient(CONFIG.API.BASE_URL);
+      
+      try {
+        const response = await apiClient.get(ENDPOINTS.CLI_LOGIN_INITIATE) as any;
+        const { verification_uri } = response.data;
+        
+        logger.info(
+          `Opening your browser...${os.EOL}• Visit ${verification_uri} and enter the code:`
+        );
 
-      opener(ENDPOINTS.CLI_LOGIN);
+        // Step 2: Open the OTA Console (UI) with the user code
+        opener(verification_uri);
+      } catch (apiError) {
+        // Fallback to direct API URL if API call fails
+        const fallbackUrl = `${CONFIG.API.BASE_URL}${ENDPOINTS.CLI_LOGIN_INITIATE}`;
+        logger.info(
+          `Opening your browser...${os.EOL}• Visit ${fallbackUrl} and enter the code:`
+        );
+        opener(fallbackUrl);
+      }
 
       const token = await promptText("Enter your access token:");
 
