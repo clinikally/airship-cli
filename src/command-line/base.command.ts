@@ -32,6 +32,23 @@ export abstract class BaseCommand {
 
   async login(): Promise<boolean> {
     try {
+      // Check if already logged in
+      const tokenStoreCheck = createDefaultTokenStore();
+      const existingToken = await tokenStoreCheck.get("cli");
+      
+      if (existingToken && existingToken.accessToken?.token) {
+        try {
+          const apiClient = new ApiClient(CONFIG.API.BASE_URL);
+          apiClient.setToken(existingToken.accessToken.token);
+          const response = await apiClient.post(ENDPOINTS.USER.VERIFY) as any;
+          
+          logger.success(`Already logged in as ${response.email || 'user'}`);
+          return true;
+        } catch (error) {
+          // Token is invalid, proceed with new login
+        }
+      }
+
       // Step 1: Get user code from API
       const apiClient = new ApiClient(CONFIG.API.BASE_URL);
       
@@ -68,11 +85,13 @@ export abstract class BaseCommand {
       }
 
       const tokenStore = createDefaultTokenStore();
-
-      await tokenStore.set("cli", {
+      
+      const tokenData = {
         id: null,
         token: accessToken,
-      });
+      };
+      
+      await tokenStore.set("cli", tokenData);
 
       await progress("Verifying login", this.verifyLogin());
 
@@ -90,14 +109,15 @@ export abstract class BaseCommand {
     while (attempts < maxAttempts) {
       try {
         const response = await apiClient.post(`${ENDPOINTS.CLI_GET_TOKEN}?user_code=${userCode}`) as any;
+        
         if (response.access_token) {
           return response.access_token;
         }
       } catch (error: any) {
         // User hasn't completed authentication yet, continue polling
-        // Only log if it's not the expected "Not authenticated yet" error
-        if (error.message && !error.message.includes("Not authenticated yet")) {
-          console.log(`Polling error: ${error.message}`);
+        // Only show error if it's not the expected "Not authenticated yet" error
+        if (!error.message || !error.message.includes("Not authenticated yet")) {
+          // Unexpected error, but continue polling
         }
       }
 
@@ -112,12 +132,15 @@ export abstract class BaseCommand {
     try {
       const tokenStore = createDefaultTokenStore();
       const tokenData = await tokenStore.get("cli");
+      
       if (!tokenData || !tokenData.accessToken?.token) {
-        throw new Error();
+        throw new Error("No valid token in store");
       }
+      
       const apiClient = new ApiClient(CONFIG.API.BASE_URL);
       apiClient.setToken(tokenData.accessToken.token);
-      await apiClient.get(ENDPOINTS.USER.VERIFY);
+      
+      await apiClient.post(ENDPOINTS.USER.VERIFY);
       return true;
     } catch (error: any) {
       throw new Error("Failed to authenticate. Invalid token.");
@@ -127,6 +150,20 @@ export abstract class BaseCommand {
   async logout(): Promise<boolean> {
     try {
       const tokenStore = createDefaultTokenStore();
+      const tokenData = await tokenStore.get("cli");
+      
+      // If we have a token, try to revoke it on the server
+      if (tokenData && tokenData.accessToken?.token) {
+        try {
+          const apiClient = new ApiClient(CONFIG.API.BASE_URL);
+          apiClient.setToken(tokenData.accessToken.token);
+          // Note: We could add a /auth/logout endpoint on the backend later
+          // For now, just remove locally
+        } catch (error) {
+          // Could not revoke token on server, proceed with local removal
+        }
+      }
+      
       await tokenStore.remove("cli");
       logger.success("Logged out successfully");
       return true;

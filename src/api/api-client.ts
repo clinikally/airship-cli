@@ -107,7 +107,7 @@ export class ApiClient {
   }
 
   setToken(token: string): void {
-    this.client.defaults.headers["x-access-token"] = token;
+    this.client.defaults.headers["Authorization"] = `Bearer ${token}`;
   }
 
   // Get current base URL
