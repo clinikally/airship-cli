@@ -8,7 +8,7 @@ import { getVersion } from "./version";
 export const showBanner = async (): Promise<void> => {
   return new Promise((resolve, reject) => {
     figlet.text(
-      "STALLION",
+      "AIRSHIP",
       {
         font: "Larry 3D",
         horizontalLayout: "default",
@@ -25,7 +25,7 @@ export const showBanner = async (): Promise<void> => {
         console.log(
           "\n" +
             chalk.whiteBright(
-              `⚡ Welcome to the Stallion CLI ${chalk.bold(
+              `⚡ Welcome to the Airship CLI ${chalk.bold(
                 chalk.greenBright(`v${getVersion()}`)
               )} ⚡ \n`
             )

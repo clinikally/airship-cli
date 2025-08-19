@@ -89,12 +89,16 @@ export abstract class BaseCommand {
 
     while (attempts < maxAttempts) {
       try {
-        const response = await apiClient.post(`${ENDPOINTS.CLI_GET_TOKEN}?user_code=${userCode}`, {}) as any;
+        const response = await apiClient.post(`${ENDPOINTS.CLI_GET_TOKEN}?user_code=${userCode}`) as any;
         if (response.access_token) {
           return response.access_token;
         }
-      } catch (error) {
+      } catch (error: any) {
         // User hasn't completed authentication yet, continue polling
+        // Only log if it's not the expected "Not authenticated yet" error
+        if (error.message && !error.message.includes("Not authenticated yet")) {
+          console.log(`Polling error: ${error.message}`);
+        }
       }
 
       await new Promise(resolve => setTimeout(resolve, interval * 1000));

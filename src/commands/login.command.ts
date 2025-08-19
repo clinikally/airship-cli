@@ -3,7 +3,7 @@ import { Command } from "@decorators/command.decorator";
 
 @Command({
   name: "login",
-  description: "Authenticate your account with Stallion CLI",
+  description: "Authenticate your account with Airship CLI",
 })
 export class LoginCommand extends BaseCommand {
   async execute(): Promise<void> {
