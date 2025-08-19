@@ -32,9 +32,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build package
-        run: pnpm prepare-release
+        run: pnpm build
 
       - name: Publish to GitHub Packages
-        run: cd stallion-package && npm publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
