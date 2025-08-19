@@ -1,6 +1,6 @@
 {
   "name": "@clinikally/airship-cli",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "CLI tool for self-hosted OTA deployments with Airship",
   "main": "./dist/index.js",
   "bin": {
