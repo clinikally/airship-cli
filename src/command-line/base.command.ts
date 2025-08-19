@@ -37,7 +37,7 @@ export abstract class BaseCommand {
       
       try {
         const response = await apiClient.get(ENDPOINTS.CLI_LOGIN_INITIATE) as any;
-        const { verification_uri } = response.data;
+        const { verification_uri } = response;
         
         logger.info(
           `Opening your browser...${os.EOL}• Visit ${verification_uri} and enter the code:`

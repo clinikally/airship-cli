@@ -33,7 +33,7 @@ class BaseCommand {
             const apiClient = new api_client_1.ApiClient(config_1.CONFIG.API.BASE_URL);
             try {
                 const response = await apiClient.get(endpoints_1.ENDPOINTS.CLI_LOGIN_INITIATE);
-                const { verification_uri } = response.data;
+                const { verification_uri } = response;
                 logger_1.logger.info(`Opening your browser...${os_1.default.EOL}• Visit ${verification_uri} and enter the code:`);
                 // Step 2: Open the OTA Console (UI) with the user code
                 (0, opener_1.default)(verification_uri);
