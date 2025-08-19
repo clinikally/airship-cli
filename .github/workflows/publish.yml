@@ -35,6 +35,6 @@ jobs:
         run: pnpm prepare-release
 
       - name: Publish to GitHub Packages
-        run: npm publish
+        run: cd stallion-package && npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
