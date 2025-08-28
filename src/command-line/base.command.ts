@@ -68,6 +68,7 @@ export abstract class BaseCommand {
         opener(verificationUri);
       } catch (apiError) {
         // Fallback to direct API URL if API call fails
+        console.log("DEBUG: API Error during CLI login initiate:", apiError);
         const fallbackUrl = `${CONFIG.API.BASE_URL}${ENDPOINTS.CLI_LOGIN_INITIATE}`;
         logger.info(
           `Opening your browser...${os.EOL}• Visit ${fallbackUrl} and complete authentication in your browser.${os.EOL}• Waiting for authentication...`

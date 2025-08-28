@@ -184,11 +184,16 @@ export class PublishBundleCommand extends BaseCommand {
       if (!hash) {
         throw new Error("Invalid path or not a valid zip file.");
       }
+      // Get bundle file size
+      const fs = require('fs');
+      const bundleSize = fs.statSync(filePath).size;
+      
       const data: any = {
         hash,
         uploadPath: uploadPath?.toLowerCase(),
         platform: platform,
         releaseNote: releaseNote,
+        bundleSize: bundleSize,
       };
       const headers: Record<string, string> = {};
       if (ciToken) {
@@ -206,9 +211,12 @@ export class PublishBundleCommand extends BaseCommand {
         throw new Error("Internal Error: invalid signed url");
       }
 
-      headers["Content-Type"] = "application/zip";
-      await client.put(url, readFileSync(filePath), {
-        headers,
+      // Create a new axios instance for S3 upload without auth headers
+      const axios = require('axios');
+      await axios.put(url, readFileSync(filePath), {
+        headers: {
+          "Content-Type": "application/zip"
+        }
       });
       return hash;
     } catch (e: any) {
