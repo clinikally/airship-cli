@@ -10,6 +10,7 @@ import "@/commands/logout.command";
 import "@/commands/generate-key-pair.command";
 import "@/commands/release-bundle.command";
 import "@/commands/update-release.command";
+import "@/commands/config.command";
 
 export class CommandRegistry {
   private commands: Map<string, BaseCommand> = new Map();

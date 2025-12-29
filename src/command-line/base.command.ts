@@ -59,13 +59,19 @@ export abstract class BaseCommand {
       try {
         const response = await apiClient.get(ENDPOINTS.CLI_LOGIN_INITIATE) as any;
         ({ user_code: userCode, verification_uri: verificationUri, interval } = response);
-        
+
+        // Override the verification URI host with the configured UI URL
+        // This ensures users are redirected to their configured UI, not the API's default
+        const apiVerificationUrl = new URL(verificationUri);
+        const configuredUiUrl = new URL(CONFIG.UI.BASE_URL);
+        const finalVerificationUri = `${configuredUiUrl.origin}${apiVerificationUrl.pathname}${apiVerificationUrl.search}`;
+
         logger.info(
-          `Opening your browser...${os.EOL}• Visit ${verificationUri} and complete authentication in your browser.${os.EOL}• Waiting for authentication...`
+          `Opening your browser...${os.EOL}• Visit ${finalVerificationUri} and complete authentication in your browser.${os.EOL}• Waiting for authentication...`
         );
 
-        // Step 2: Open the OTA Console (UI) with the user code
-        opener(verificationUri);
+        // Step 2: Open the OTA Console (UI) with the user code using configured UI URL
+        opener(finalVerificationUri);
       } catch (apiError) {
         // Fallback to direct API URL if API call fails
         console.log("DEBUG: API Error during CLI login initiate:", apiError);
