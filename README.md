@@ -4,13 +4,12 @@
   </a>
 </p>
 
-#### [Sign up With Stallion](https://console.stalliontech.io/) to start using
 
-# Stallion Command Line Interface (CLI)
+# Airship Command Line Interface (CLI)
 
 [![npm Version](https://img.shields.io/npm/v/stallion-cli.svg)](https://www.npmjs.com/package/stallion-cli) [![License](https://img.shields.io/npm/l/stallion-cli)](https://www.npmjs.com/package/stallion-cli)
 
-Stallion CLI is a unified tool for deploying react-native bundles to stallion servers.
+> Airship-CLI (fork of `Stallion CLI`) is a unified tool for deploying react-native bundles to Airship OTA server.
 
 ## Prerequisites
 
@@ -22,30 +21,19 @@ Node.js version 16 is recommended
 ### npm
 
 ```
-npm install -g stallion-cli
+npm install @clinikally/airship-cli
 ```
 
-### yarn
+### globally
 
 ```
-yarn global add stallion-cli
+npm install -g @clinikally/airship-cli
 ```
 
-## Documentation
+## Original Documentation:
 
 Document contains installation steps and usage
 
 https://learn.stalliontech.io/docs/cli/installation
 
-## Contributing
 
-Please see the [contributing](./CONTRIBUTING.md) file
-for an introduction to the codebase and what the various moving parts are.
-
-## Open issues
-
-Check out [open issues](https://github.com/stallion-tech/stallion-cli/issues) for a list of known issues, and discussions.
-
-## Code of Conduct
-
-You can find the code of conduct [here](./CODE_OF_CONDUCT.md)
